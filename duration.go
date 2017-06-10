@@ -1,4 +1,4 @@
-//This package offers the hability to parse a string to a time.Duration. Similar as the stdl but it offers two more options: y(year) and w(week).
+//This package offers the hability to parse a string to a time.Duration. Similar as the stdl but it offers three more options: y(year), w(week) and d(day).
 package duration
 
 import (
@@ -25,7 +25,7 @@ var (
 )
 
 // ParseDuration parses a duration string with the following formats: y(year), w(week), d(day), h(hour), m(minute), s(second), ms(millisecond), us or µs(microsecond)  and ns(nanosecond). The order of the string is strict, must be from 'larger' to 'lesser', so '1m1s' is correct but '1s1m' is not, and repetitions are not permited, '1s1s' is invalid.
-func ParseDuration(s string) (time.Duration, error) {
+func Parse(s string) (time.Duration, error) {
 	res := reDuration.FindAllStringSubmatch(s, -1)
 	var result int64
 

@@ -57,7 +57,7 @@ func TestParseDuration(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		if d, _ := ParseDuration(test.Input); d != test.Expected {
+		if d, _ := Parse(test.Input); d != test.Expected {
 			t.Errorf("Expected %s to be %d (%s), found %d (%s)", test.Input, test.Expected, test.Expected, d, d)
 		}
 	}
@@ -85,10 +85,14 @@ func TestParseDurationErrors(t *testing.T) {
 			"1s1s",
 			"error parsing input: 1s1s",
 		},
+		{
+			"a",
+			"error parsing input: a",
+		},
 	}
 
 	for _, test := range tests {
-		if _, err := ParseDuration(test.Input); err != nil {
+		if _, err := Parse(test.Input); err != nil {
 			if err.Error() != test.Expected {
 				t.Errorf("Expected %s to have error %s, found %q", test.Input, test.Expected, err)
 			}
