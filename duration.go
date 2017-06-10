@@ -1,4 +1,4 @@
-//This package offers the hability to parse a string to a time.Duration. Similar as the stdl but it offers three more options: y(year), w(week) and d(day).
+//This package offers the hability to parse a string to a time.Duration, similar as the stdl but it offers three more options: y(year), w(week) and d(day).
 package duration
 
 import (
