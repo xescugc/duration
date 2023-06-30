@@ -4,6 +4,8 @@
 
 This package offers the ability to parse a string to a `time.Duration`. It's more strict (specific order and no repetition) than the [time.ParseDuration](parseDuration) but it offers more options: y (year), w (week) and d(day).
 
+It also has those durations as constants so: `duration.Year`, `duration.Week` and `duration.Day`
+
 ## Install
 
 ```
@@ -22,8 +24,7 @@ Parse parses a duration string with the following formats:
 * `m`(minute)
 * `s`(second)
 * `ms`(millisecond)
-* `us`
-* `µs`(microsecond)
+* `us` or `µs`(microsecond)
 * `ns`(nanosecond).
 
 The order of the string is strict, must be from 'larger' to 'lesser', so `'1m1s'` is correct but `'1s1m'` is not, and repetitions are not permitted, `'1s1s'` is invalid.
