@@ -9,7 +9,7 @@ It also has those durations as constants so: `duration.Year`, `duration.Week` an
 ## Install
 
 ```
-$> go get github.com/XescuGC/duration
+go get github.com/xescugc/duration
 ```
 
 ## API
