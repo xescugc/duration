@@ -1,4 +1,4 @@
-// This package offers the hability to parse a string to a time.Duration, similar as the stdl but it offers three more options: y(year), w(week) and d(day).
+// This package offers the ability to parse a string to a time.Duration, similar as the stdl but it offers three more options: y(year), w(week) and d(day).
 package duration
 
 import (
@@ -23,7 +23,7 @@ const (
 )
 
 var (
-	reDuration = regexp.MustCompile(`^(?:(?P<y>\d+)y)?(?:(?P<w>\d+)w)?(?:(?P<d>\d+)d)?(?:(?P<h>\d+)h)?(?:(?P<m>\d+)m)?(?:(?P<s>\d+)s)?(?:(?P<ms>\d+)ms)?(?:(?P<us>\d+)us)?(?:(?P<us>\d+)µs)?(?:(?P<ns>\d+)ns)?$`)
+	reDuration = regexp.MustCompile(`^(?:(?P<y>\d+)y)?(?:(?P<w>\d+)w)?(?:(?P<d>\d+)d)?(?:(?P<h>\d+)h)?(?:(?P<m>\d+)m)?(?:(?P<s>\d+)s)?(?:(?P<ms>\d+)ms)?(?:(?P<us>\d+)us)?(?:(?P<us2>\d+)µs)?(?:(?P<ns>\d+)ns)?$`)
 	reNames    = reDuration.SubexpNames()
 	durations  = map[string]int64{
 		"y":  int64(Year),
@@ -34,12 +34,17 @@ var (
 		"s":  int64(Second),
 		"ms": int64(Millisecond),
 		"us": int64(Microsecond),
+		"us2": int64(Microsecond),
 		"ns": int64(Nanosecond),
 	}
 )
 
-// ParseDuration parses a duration string with the following formats: y(year), w(week), d(day), h(hour), m(minute), s(second), ms(millisecond), us or µs(microsecond)  and ns(nanosecond). The order of the string is strict, must be from 'larger' to 'lesser', so '1m1s' is correct but '1s1m' is not, and repetitions are not permitted, '1s1s' is invalid.
+// Parse parses a duration string with the following formats: y(year), w(week), d(day), h(hour), m(minute), s(second), ms(millisecond), us or µs(microsecond)  and ns(nanosecond). The order of the string is strict, must be from 'larger' to 'lesser', so '1m1s' is correct but '1s1m' is not, and repetitions are not permitted, '1s1s' is invalid.
 func Parse(s string) (time.Duration, error) {
+	if s == "" {
+		return 0, fmt.Errorf("error parsing input: empty string")
+	}
+
 	res := reDuration.FindAllStringSubmatch(s, -1)
 	var result int64
 
