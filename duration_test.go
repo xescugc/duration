@@ -89,6 +89,10 @@ func TestParseDurationErrors(t *testing.T) {
 			"a",
 			"error parsing input: a",
 		},
+		{
+			"",
+			"error parsing input: empty string",
+		},
 	}
 
 	for _, test := range tests {

@@ -1,6 +1,6 @@
 # duration
 
-[![GoDoc](https://godoc.org/github.com/XescuGC/duration?status.svg)](https://godoc.org/github.com/XescuGC/duration)
+[![GoDoc](https://godoc.org/github.com/xescugc/duration?status.svg)](https://godoc.org/github.com/xescugc/duration)
 
 This package offers the ability to parse a string to a `time.Duration`. It's more strict (specific order and no repetition) than the [time.ParseDuration](parseDuration) but it offers more options: y (year), w (week) and d(day).
 
