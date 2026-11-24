@@ -1,6 +1,8 @@
 package duration
 
 import (
+	"strconv"
+	"strings"
 	"testing"
 	"time"
 )
@@ -62,6 +64,45 @@ func TestParseDuration(t *testing.T) {
 		}
 	}
 
+}
+
+func TestParseDurationLargeComponents(t *testing.T) {
+	tests := []struct {
+		Input    string
+		Expected time.Duration
+	}{
+		{"2147483647ns", time.Duration(1<<31 - 1)},
+		{"2147483648ns", time.Duration(1 << 31)},
+		{"3000000000ns", 3 * time.Second},
+		{"3000000000us", 50 * time.Minute},
+		{"3000000000µs", 50 * time.Minute},
+		{"3000000000ms", 3000000 * time.Second},
+		{"3000000000s", 3000000000 * time.Second},
+		{"1m3000000000ns", 63 * time.Second},
+		{"9223372036854775807ns", time.Duration(1<<63 - 1)},
+	}
+
+	for _, test := range tests {
+		t.Run(test.Input, func(t *testing.T) {
+			got, err := Parse(test.Input)
+			if err != nil {
+				t.Fatalf("Parse(%q) returned an error: %v", test.Input, err)
+			}
+			if got != test.Expected {
+				t.Errorf("Parse(%q) = %s, want %s", test.Input, got, test.Expected)
+			}
+		})
+	}
+}
+
+func TestParseDurationComponentRangeErrors(t *testing.T) {
+	for _, input := range []string{"9223372036854775808ns", "18446744073709551615ns"} {
+		t.Run(input, func(t *testing.T) {
+			if _, err := Parse(input); err == nil || !strings.Contains(err.Error(), strconv.ErrRange.Error()) {
+				t.Errorf("Parse(%q) error = %v, want a range error", input, err)
+			}
+		})
+	}
 }
 
 func TestParseDurationErrors(t *testing.T) {
