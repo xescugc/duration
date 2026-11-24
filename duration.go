@@ -26,16 +26,16 @@ var (
 	reDuration = regexp.MustCompile(`^(?:(?P<y>\d+)y)?(?:(?P<w>\d+)w)?(?:(?P<d>\d+)d)?(?:(?P<h>\d+)h)?(?:(?P<m>\d+)m)?(?:(?P<s>\d+)s)?(?:(?P<ms>\d+)ms)?(?:(?P<us>\d+)us)?(?:(?P<us2>\d+)µs)?(?:(?P<ns>\d+)ns)?$`)
 	reNames    = reDuration.SubexpNames()
 	durations  = map[string]int64{
-		"y":  int64(Year),
-		"w":  int64(Week),
-		"d":  int64(Day),
-		"h":  int64(Hour),
-		"m":  int64(Minute),
-		"s":  int64(Second),
-		"ms": int64(Millisecond),
-		"us": int64(Microsecond),
+		"y":   int64(Year),
+		"w":   int64(Week),
+		"d":   int64(Day),
+		"h":   int64(Hour),
+		"m":   int64(Minute),
+		"s":   int64(Second),
+		"ms":  int64(Millisecond),
+		"us":  int64(Microsecond),
 		"us2": int64(Microsecond),
-		"ns": int64(Nanosecond),
+		"ns":  int64(Nanosecond),
 	}
 )
 
@@ -56,11 +56,11 @@ func Parse(s string) (time.Duration, error) {
 			return 0, fmt.Errorf("error parsing input: %v", s)
 		}
 		if v := res[0][i]; v != "" {
-			iv, err := strconv.Atoi(v)
+			iv, err := strconv.ParseInt(v, 10, 64)
 			if err != nil {
 				return 0, fmt.Errorf("error parsing input: %v", err)
 			}
-			result += durations[k] * int64(iv)
+			result += durations[k] * iv
 		}
 	}
 
